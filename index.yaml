@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  cratedb:
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: 2019-05-19T21:18:12.263791+08:00
+    description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
+      built on top of a NoSQL foundation)
+    digest: 33121f4550d74c8bd6c65dbf9030878e3fad7247101175704e3397af6acb79bd
+    home: https://crate.io
+    icon: https://raw.githubusercontent.com/crate/crate/master/blackbox/docs/_static/crate-logo.png
+    maintainers:
+    - email: hmdmph@yahoo.com
+      name: Manoj Prasanna Handapangoda
+    name: cratedb
+    sources:
+    - https://github.com/crate/crate
+    urls:
+    - cratedb-0.1.0.tgz
+    version: 0.1.0
+generated: 2019-05-19T21:18:12.260744+08:00
