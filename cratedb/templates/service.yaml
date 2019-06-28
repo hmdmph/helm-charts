@@ -1,0 +1,27 @@
+# CrateDB external service
+# This is the service that clients use to connect the crateDB via
+# PostgreSQL wire protocol clients
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.externalService.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ template "cratedb.name" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ include "cratedb.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.Version }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: {{ template "cratedb.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+  - port: {{ .Values.externalService.webUiPort }}
+    name: {{ .Values.externalService.webPortName }}
+  - port: {{ .Values.externalService.pgsqlWirePort }}
+    name: {{ .Values.externalService.pgsqlWirePortName }}
