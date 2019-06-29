@@ -107,7 +107,7 @@ Following table contains other parameters are also configurable in chart, but mo
 | `image.tag`                                      | version/ tag of the image            | 3.2.7                              |
 | `image.pullPolicy`                               | image pull policy                    | IfNotPresent                       |
 
-
+Happy Helm with ♥ at hmdmph
 
 
 
