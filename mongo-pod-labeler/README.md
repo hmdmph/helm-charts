@@ -79,7 +79,7 @@ The following table lists main configurable most common parameters of the CrateD
 | `image.pullPolicy`              | image pull policy                                     | IfNotPresent           |
 |---------------------------------|---------------------------------                      |---------------------   |
 | `resources.limits.cpu`          | cpu resource limit                                    | 200m                   |
-| `resources.limits.memory`       | memory resource limit                                 | 200mi                  |
+| `resources.limits.memory`       | memory resource limit                                 | 200Mi                  |
 | `resources.requests.cpu`        | cpu request                                           | 100m                   |
 | `resources.requests.memory`     | memory request                                        | 128Mi                  |
 |---------------------------------|---------------------------------                      |---------------------   |

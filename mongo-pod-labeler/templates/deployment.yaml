@@ -31,9 +31,9 @@ spec:
             - --namespace={{ .Values.namespace }}
             - --pod-selector={{ .Values.mongoPodSelector.keyValuePair }}
             - --update-period={{ .Values.labelUpdateFrequency }}
-              {{-if .Values.verbose.enabled }}
+              {{- if .Values.verbose.enabled }}
             - --verbose
-            {{- end -}}
+            {{- end }}
           livenessProbe:
             exec:
               command:
