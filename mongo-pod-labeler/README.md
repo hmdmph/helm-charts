@@ -37,7 +37,7 @@ the parameters that can be configured during installation.
 
 > **Tip** List installed mongo-labeler release `helm list | grep mongo-pod-labeler`
 
-> **Tip** get history of chart version/ status/ etc... CrateDB releases `helm history mongo-labeler` 
+> **Tip** get history of chart version/ status/ etc... mongo-pod-labeler releases `helm history mongo-labeler` 
 
 ## Uninstalling the Chart
 
@@ -56,12 +56,12 @@ A major chart version change (like v2.1.0 -> v3.0.0) indicates that there may be
 incompatible or breaking changes that require manual actions.
 
 ### 0.1.0
-This is the initial version of the crateDB chart with the minimal configuration/ settings.
+This is the initial version of the mongo-pod-labeler chart with the minimal configuration/ settings.
 
 
 ## Configuration
 
-The following table lists main configurable most common parameters of the CrateDB chart and their default values:
+The following table lists main configurable most common parameters of the mongo-pod-labeler chart and their default values:
 
 | Parameter                       | Description                                           | Default                |
 |---------------------------------|-------------------------------------------------------|------------------------|
