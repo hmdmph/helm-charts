@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ include "mongo-pod-labeler.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
+    helm.sh/chart: {{ include "mongo-pod-labeler.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      labels:
+        app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - ./mongo-labeler.py
+            - --namespace={{ .Values.namespace }}
+            - --pod-selector={{ .Values.mongoPodSelector.keyValuePair }}
+            - --update-period={{ .Values.labelUpdateFrequency }}
+              {{- if .Values.verbose.enabled }}
+            - --verbose
+            {{- end }}
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - ps uaxw | egrep 'python' | grep -v 'grep'
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - ps uaxw | egrep 'python' | grep -v 'grep'
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      serviceAccountName: {{ include "mongo-pod-labeler.serviceaccount" . }}
