@@ -1,0 +1,29 @@
+1. Get the application details by running these commands:
+
+Check the status of mongo-pod-labeler using:
+
+   kubectl get pods --namespace {{ .Values.namespace }} -l "app.kubernetes.io/name={{ template "mongo-pod-labeler.name" . }}"
+
+
+While creation in progress you may see something like below
+
+  NAME                        READY     STATUS            RESTARTS   AGE
+  mongo-pod-labeler-xxx-yyy   0/1       PodInitializing   0          16s
+
+After creating the pod you may see something like below
+
+  NAME                        READY     STATUS            RESTARTS   AGE
+  mongo-pod-labeler-xxx-yyy   1/1       Running           0          26s
+
+Retrieve Primary mongo pod
+
+  kubectl get pods --namespace {{ .Values.namespace }} -l redmart.com/mongo-role=primary
+
+Retrieve Primary mongo pod
+
+  kubectl get pods --namespace {{ .Values.namespace }} -l redmart.com/mongo-role=secondary
+
+Happy Helm with ♥ at hmdmph
+
+
+

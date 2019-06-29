@@ -1,0 +1,53 @@
+# Default values for mongo-pod-labeler.
+
+# Default replica count set to 1
+replicaCount: 1
+
+# Default revision history limit set to 5
+revisionHistoryLimit: 5
+
+# Namespace you wish to deploy
+namespace: mongo
+
+# How frequent you want to label the mongo pods in seconds ( Default values to set to 60 seconds )
+labelUpdateFrequency: 60
+
+# key=value of to match and get the mongo pods (here app=mongodb-replicaset)
+# Refer the code here - https://github.com/Redmart/mongo-pod-labeler/blob/b9ba236a880d2eb5ea9e0497ecd51e2ba355bdb2/mongo-labeler.py#L43
+mongoPodSelector:
+  keyValuePair: "app=mongodb-replicaset"
+
+# if u want to see more detailed output whats happening.( in case you want debug :D )
+# Default set to false
+verbose:
+  enabled: false
+
+# chart images details
+image:
+  repository: "redmart/mongo-pod-labeler"
+  tag: 1.0.0
+  pullPolicy: IfNotPresent
+
+# Override the deployment names
+nameOverride: ""
+fullnameOverride: ""
+
+# Pod resources ( default values set to minimal, this pod may not need a lot)
+resources:
+  limits:
+    cpu: 200m
+    memory: 200Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# node selector
+nodeSelector: {}
+
+# tolerations
+tolerations: []
+
+# affinity
+affinity: {}
+
+
