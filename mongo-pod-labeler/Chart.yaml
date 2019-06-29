@@ -8,4 +8,5 @@ maintainers:
     email: hmdmph@gmail.com
 sources:
   - https://github.com/hmdmph/helm-charts/tree/master/cratedb
-icon: https://github.com/hmdmph/helm-charts/blob/4f5c97e8a43045c6b028a21ae7e6aae252ed70e1/mongo-pod-labeler/mongo-pod-labeler-logo.png
+icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/mongo-pod-labeler/mongo-pod-labeler-logo.png
+
