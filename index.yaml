@@ -3,14 +3,14 @@ entries:
   cratedb:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: 2019-06-28T21:30:57.126144+08:00
+    created: 2019-06-29T15:09:26.277441+08:00
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: 97ca71d760c063d4fe8b914a9327af00c208ce0b445ad96ab01a962889e74aef
     home: https://crate.io
     icon: https://raw.githubusercontent.com/crate/crate/master/blackbox/docs/_static/crate-logo.png
     maintainers:
-    - email: hmdmph@gmail.com
+    - email: hmdmph@yahoo.com
       name: hmdmph
     name: cratedb
     sources:
@@ -20,14 +20,14 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: 2019-06-28T21:30:57.125111+08:00
+    created: 2019-06-29T15:09:26.276805+08:00
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: 33121f4550d74c8bd6c65dbf9030878e3fad7247101175704e3397af6acb79bd
     home: https://crate.io
     icon: https://raw.githubusercontent.com/crate/crate/master/blackbox/docs/_static/crate-logo.png
     maintainers:
-    - email: hmdmph@gmail.com
+    - email: hmdmph@yahoo.com
       name: hmdmph
     name: cratedb
     sources:
@@ -35,4 +35,21 @@ entries:
     urls:
     - https://hmdmph.github.io/helm-charts/cratedb-0.1.0.tgz
     version: 0.1.0
-generated: 2019-06-28T21:30:57.122464+08:00
+  mongo-pod-labeler:
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: 2019-06-29T15:09:26.277961+08:00
+    description: Labelling mongo pods (as primary or secondary ) periodically checking
+      its status
+    digest: 24fd95966fe61f54823225f60c0794c8f40718b26a89d025e448ec4cfc4bbbb4
+    icon: https://github.com/hmdmph/helm-charts/blob/4f5c97e8a43045c6b028a21ae7e6aae252ed70e1/mongo-pod-labeler/mongo-pod-labeler-logo.png
+    maintainers:
+    - email: hmdmph@gmail.com
+      name: Manoj Prasanna Handapangoda
+    name: mongo-pod-labeler
+    sources:
+    - https://github.com/hmdmph/helm-charts/tree/master/cratedb
+    urls:
+    - https://hmdmph.github.io/helm-charts/mongo-pod-labeler-0.1.0.tgz
+    version: 0.1.0
+generated: 2019-06-29T15:09:26.275561+08:00
