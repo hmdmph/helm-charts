@@ -1,4 +1,4 @@
 .idea
 release-chart.sh
-*.tgz
+#*.tgz
 
