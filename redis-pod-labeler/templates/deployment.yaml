@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "redis-pod-labeler.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
+    helm.sh/chart: {{ include "redis-pod-labeler.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - ./redis-labeler.py
+            - --namespace={{ .Values.namespace }}    # namespace which deployed redis
+            - --pod-selector={{ .Values.redisPodSelector.keyValuePair }} # key=value of to match and get the redis pods
+            - --update-period={{ .Values.labelUpdateFrequency }}   # how frequent labelling should happen( default to 60 seconds = 1 minute )
+            - --redis-cluster-name={{ .Values.redisClusterName }} # redis cluster name
+            - --redis-headless-svc-name={{ .Values.headlessName }} # redis headless service name
+            - --company-domain={{ .Values.companyDomain }}  # company domain
+            - --redis-sentinel_port={{ .Values.sentinelPort }} # sentinel port
+{{- if .Values.skipTlsVerify.enabled }}
+            - --insecure-skip-tls-verify
+{{- end }}
+{{- if .Values.verbose.enabled }}
+            - --verbose
+{{- end }}
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - ps uaxw | egrep 'python' | grep -v 'grep'
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - ps uaxw | egrep 'python' | grep -v 'grep'
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "redis-pod-labeler.serviceaccount" . }}
