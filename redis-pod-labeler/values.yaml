@@ -1,0 +1,80 @@
+# Default values for redis-pod-labeler.
+
+# Default replica count set to 1
+replicaCount: 1
+
+# Default revision history limit set to 5
+revisionHistoryLimit: 5
+
+# Namespace you wish to deploy
+namespace: redis
+
+# How frequent you want to label the redis pods in seconds
+# ( Default values to set to 60 seconds )
+labelUpdateFrequency: 60
+
+# key=value of to match and get the redis pods (here release=redis-main)
+redisPodSelector:
+  keyValuePair: "release=redis-ha"
+
+# redis header service name
+headlessName: "redis-ha"
+
+# expose redis master via service
+exposeMasterService:
+  enabled: true
+
+# redis port
+redisPort: 6379
+
+#sentinelPort
+sentinelPort: 26379
+
+# skip the tls verification( default to false )
+skipTlsVerify:
+  enabled: false
+
+# Redis cluster name
+redisClusterName: "mymaster"
+
+# Company domain( to make label like "abc.com/role"
+companyDomain: "redis.io"
+
+# if u want to see more detailed output whats happening.( in case you want debug :D )
+# Default set to false
+verbose:
+  enabled: false
+
+# chart images details
+image:
+  repository: "redmart/redis-pod-labeler"
+  tag: "1.0.1"
+  pullPolicy: IfNotPresent
+
+# Override the deployment names
+nameOverride: ""
+fullnameOverride: ""
+
+# Custom service annotations
+serviceAnnotations: {}
+#  external-dns.kubernetes.io/hostname: "redis-master.abl.com"
+#  sample-annotations/value: "another-value"
+
+
+# Pod resources ( default values set to minimal, this pod may not need a lot)
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 80m
+    memory: 50Mi
+
+# node selector
+nodeSelector: {}
+
+# tolerations
+tolerations: []
+
+# affinity
+affinity: {}

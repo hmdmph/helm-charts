@@ -1,0 +1,29 @@
+1. Get the application details by running these commands:
+
+Check the status of redis-pod-labeler using:
+
+   kubectl get pods --namespace {{ .Values.namespace }} -l "app.kubernetes.io/name={{ template "redis-pod-labeler.name" . }}"
+
+
+While creation in progress you may see something like below
+
+  NAME                        READY     STATUS            RESTARTS   AGE
+  redis-pod-labeler-xxx-yyy   0/1       PodInitializing   0          16s
+
+After creating the pod you may see something like below
+
+  NAME                        READY     STATUS            RESTARTS   AGE
+  redis-pod-labeler-xxx-yyy   1/1       Running           0          26s
+
+Retrieve master redis pod
+
+  kubectl get pods --namespace {{ .Values.namespace }} -l {{ .Values.companyDomain }}/role=master
+
+Retrieve slave redis pods
+
+  kubectl get pods --namespace {{ .Values.namespace }} -l {{ .Values.companyDomain }}/role=slave
+
+Happy Helm with ♥ at hmdmph
+
+
+
