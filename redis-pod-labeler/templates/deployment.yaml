@@ -27,7 +27,7 @@ spec:
           args:
             - ./redis-labeler.py
             - --namespace={{ .Values.namespace }}    # namespace which deployed redis
-            - --pod-selector={{ .Values.redisPodSelector.keyValuePair }} # key=value of to match and get the redis pods
+            - --svc-selector={{ .Values.redisPodSelector.keyValuePair }} # key=value of to match and get the redis-ha announce svc
             - --update-period={{ .Values.labelUpdateFrequency }}   # how frequent labelling should happen( default to 60 seconds = 1 minute )
             - --redis-cluster-name={{ .Values.redisClusterName }} # redis cluster name
             - --redis-headless-svc-name={{ .Values.headlessName }} # redis headless service name

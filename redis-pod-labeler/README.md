@@ -14,10 +14,20 @@ as same as your redis namespace.
 ### TL;DR
 
 ```bash
-$ helm install hmdmph/redis-pod-labeler
+helm install hmdmph/redis-pod-labeler \
+     --name redis-labeler \
+     --set namespace=redis \
+     --set headlessName=my-redis-redis-ha \
+     --set companyDomain=mycompany.com \
+     --set redisPodSelector.keyValuePair="release=my-redis"  \
+     --set verbose.enabled=true
 ```
+Above will install the redis-pod-labeler in the namespace of redis. It will find the redis-ha
+announce services using label _release=my-redis_ and the given headless name _my-redis-redis-ha_
+then label them with roles with key/value `mycompany.com/role`=`master`
 
-## Prerequisites
+
+## Prerequisites / Dependencies
 
 - Kubernetes 1.8+ with Beta APIs enabled
 - [Deployed redis-ha cluster with sentinel](https://github.com/helm/charts/tree/master/stable/redis-ha)
@@ -28,7 +38,13 @@ To install the chart with the release name you can give a name as you wish `redi
 
 ```bash
 $ helm repo add hmdmph https://hmdmph.github.io/helm-charts
-$ helm install --name redis-labeler hmdmph/redis-pod-labeler
+$ helm install hmdmph/redis-pod-labeler \
+       --name redis-labeler \
+       --set namespace=redis \
+       --set headlessName=my-redis-redis-ha \
+       --set companyDomain=mycompany.com \
+       --set redisPodSelector.keyValuePair="release=my-redis"  \
+       --set verbose.enabled=true
 ```
 
 This Helm chart deploys redis-pod-labeler on the Kubernetes cluster in a default
@@ -57,8 +73,14 @@ deletes the release.
 A major chart version change (like v2.1.0 -> v3.0.0) indicates that there may be
 incompatible or breaking changes that require manual actions.
 
-### 0.1.0
-This is the initial version of the redis-pod-labeler chart with the minimal configuration/ settings.
+##Changelog
+
+### 1.0.2
+- Improved docker alpine based small image.
+- Fixed a bug when deploying in multiple redis environments.
+
+### 1.0.0
+- This is the initial version of the redis-pod-labeler chart with the minimal configuration/ settings.
 
 
 ## Configuration
@@ -70,8 +92,8 @@ The following table lists main configurable most common parameters of the redis-
 | `replicaCount`                  | number of replicas                                    | 1                      |
 | `namespace`                     | namespace that you want to install redis-pod-labeler  | redis                  |
 | `labelUpdateFrequency`          | how frequent you want to update the redis pods labels (in seconds) | 60        |
-| `redisPodSelector.keyValuePair` | key=value of to match and get the redis pods          | release=redis-main     |
-| `headlessName`                  | headless service name of redis cluster                | redis-main-redis-ha    |
+| `redisPodSelector.keyValuePair` | key=value of to match and get the redis pods          | release=my-redis     |
+| `headlessName`                  | headless service name of redis cluster                | my-redis-redis-ha    |
 | `exposeMasterService.enabled`   | expose the redis master as service                    | true                   |
 | `redisPort`                     | redis port                                            | 6379                   |
 | `skipTlsVerify.enabled`         | skip tls verification                                 | false                  |

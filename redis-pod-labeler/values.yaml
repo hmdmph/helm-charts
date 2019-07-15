@@ -15,10 +15,10 @@ labelUpdateFrequency: 60
 
 # key=value of to match and get the redis pods (here release=redis-main)
 redisPodSelector:
-  keyValuePair: "release=redis-ha"
+  keyValuePair: "release=my-redis"
 
 # redis header service name
-headlessName: "redis-ha"
+headlessName: "my-redis-redis-ha"
 
 # expose redis master via service
 exposeMasterService:
@@ -48,7 +48,7 @@ verbose:
 # chart images details
 image:
   repository: "redmart/redis-pod-labeler"
-  tag: "1.0.1"
+  tag: "1.0.2"
   pullPolicy: IfNotPresent
 
 # Override the deployment names
