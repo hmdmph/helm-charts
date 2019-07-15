@@ -1,6 +1,7 @@
-# Chart Repository for Helm - "hmdmph"
+# Chart Repository for Helm - [hmdmph](https://hmdmph.github.io/helm-charts/)
 
-#### _This repo contains helpful helm chats that you can use with helm install._
+#### _This [repo](https://hmdmph.github.io/helm-charts/) contains helpful helm chats that you can use with helm install._
+[ https://hmdmph.github.io/helm-charts/ ]
 
 ## Helm Chart List
 - [crateDB](https://github.com/hmdmph/helm-charts/tree/master/cratedb) - A distributed SQL database built on top of a NoSQL 
@@ -12,5 +13,3 @@ foundation.
 - more in progress...
 
 Happy Helm with ♥ at hmdmph  
-
- 
