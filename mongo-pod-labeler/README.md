@@ -55,8 +55,14 @@ deletes the release.
 A major chart version change (like v2.1.0 -> v3.0.0) indicates that there may be
 incompatible or breaking changes that require manual actions.
 
+##Changelog
+
+### 1.0.1
+- Improved alpine based small image
+- clear logs in verbose mode
+
 ### 0.1.0
-This is the initial version of the mongo-pod-labeler chart with the minimal configuration/ settings.
+- This is the initial version of the mongo-pod-labeler chart with the minimal configuration/ settings.
 
 
 ## Configuration
