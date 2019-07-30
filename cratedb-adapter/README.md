@@ -1,58 +1,57 @@
-# CrateDB
+# CrateDB Adapter ( can be easily used with prometheus remote write/read )
 
-CrateDB is a distributed SQL database built on top of a NoSQL foundation. It combines the familiarity of SQL with the scalability and data flexibility of NoSQL, enabling developers to:
+CrateDB is a distributed SQL database built on top of a NoSQL foundation. 
+This is an adapter that accepts read/write requests, and sends them on to CrateDB. 
 
- - Use SQL to process any type of data, structured or unstructured
- - Perform SQL queries at realtime speed, even JOINs and aggregates
- - Scale simply
-
-This chart deploys a CrateDB cluster as a StatefulSet. It creates a External
-Service that does load balancing by default. The default persistence mechanism 
-is simply the ephemeral local filesystem, but production deployments should 
-set `persistentVolume.enabled` to `true` to attach storage volumes to each Pod 
-in the Deployment.
+ - listen on endpoints `http://<service-name>:9268/write` and `http://<service-name>:9268/read`
+ - Requires CrateDB 3.1.0 or greater.
+ 
+This chart deploys a CrateDB Adapter as a Deployment. By default it creates a
+Service that expose the endpoints.
 
 ### TL;DR
 
 ```bash
-$ helm install incubator/cratedb
+$ helm install hmdmph/cratedb-adapter \
+       --name cratedb-adapter \
+       --set createdb.passwd="*****"
 ```
 
 ## Prerequisites
 
 - Kubernetes 1.8+ with Beta APIs enabled
 - If deploying in production environment, you need to have persistent volumes
+- Deployed [crateDB](https://github.com/hmdmph/helm-charts/tree/master/cratedb) in Kubernetes 3.1.0 or higher
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
-$ helm install --name my-crate incubator/cratedb
+$ helm repo add hmdmph https://hmdmph.github.io/helm-charts
+$ helm install --name cratedb-adapter hmdmph/cratedb-adapter
 ```
 
-This Helm chart deploys crateDB on the Kubernetes cluster in a default
+This Helm chart deploys crateDB adapter on the Kubernetes cluster in a default
 configuration. The [configuration](#configuration) section lists
 the parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
-> **Tip** List installed crateDB release `helm list | grep crate`
+> **Tip** List installed crateDB Adapter release `helm list | grep cratedb-adapter`
 
-> **Tip** get history of chart version/ status/ etc... CrateDB releases `helm history my-crate` 
+> **Tip** get history of chart version/ status/ etc... CrateDB Adapter releases `helm history cratedb-adapter` 
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-crate` Deployment:
+To uninstall/delete the `cratedb-adapter` Deployment:
 
 ```bash
-$ helm delete my-crate
+$ helm delete cratedb-adapter
 ```
 
 The command removes all the Kubernetes components associated with the chart and
 deletes the release.
-( If your used persistence volumes then removing those will depends on your pv policy)
 
 ## Upgrading an existing Release to a new major version
 
@@ -60,11 +59,11 @@ A major chart version change (like v0.1.0 -> v1.0.0) indicates that there may be
 incompatible or breaking changes that require manual actions.
 
 ### 0.1.0
-This is the initial version of the crateDB chart with the minimal configuration/ settings.
+This is the initial version of the crateDB Adapter chart with the minimal configuration/ settings.
 
-## How to delete the crateDB StatefulSet
+## How to delete the crateDB Adapter deployment
 ```bash
-$ kubectl delete statefulsets --cascade=false my-crate
+$ kubectl delete statefulsets --cascade=false cratedb-adapter
 ```
 
 ## Configuration
@@ -73,40 +72,33 @@ The following table lists main configurable most common parameters of the CrateD
 
 | Parameter                       | Description                                           | Default                            |
 |---------------------------------|-------------------------------------------------------|------------------------------------|
-| `clusterSize`                   | The initial number of nodes in the CrateDB cluster    | 3                                  |
-| `clusterName`                   | name given for the new CrateDB cluster                | cratedb-cluster                    |
+| `replicaCount`                  | number of replicas for CrateDB adapter                | 1                                  |
 | `namespace`                     | namespace that you want to install crateDB            | default                            |
-| `cratadbStatefulsetName`        | Name for the CrateDB statefulset                      | crate-set                          |
-| `heapSize`                      | Size of the heap that your want to set for the CrateDB (megabytes) | 256m                  |
-| `resources`                     | resources requests/limits can be defined as your requirement | {}                          |
-| `persistentVolume.enabled`      | enable persistent volumes ( this must be true if your are running in production | false    |
-| `persistentVolume.accessModes`  | access mode                                           | ReadWriteOnce                      |
-| `persistentVolume.size`         | disk size ( production environment you have to specify according to your requirement | 5Gi |
-| `cratedbConfig.dataPath`        |  CrateDB configuration, data path                     | /data                              |
-| `cratedbConfig.volumeMountName` | mount volume name                                     | data                               |
-| `affinity`                      | pod affinity                                          | {}                                 |
-| `nameOverride`                  | override chart name                                   | ""                                 |
-| `fullnameOverride`              | override chart full name                              | ""                                 |
+| `createdb.hostname`             | hostname of the cratedb service                       | crate.your-domain.com              |
+| `createdb.portName`             | port of the CrateDB                                   | 5432                               |
+| `createdb.userName`             | user name for CrateDB                                 | crate                              |
+| `createdb.passwd`               | password name for CrateDB                             | ""                                 |
+| `createdb.schema`               | schema name that you want to connect in CrateDB       | "cratedb"                          |
+| `createdb.maxConnections`       | The maximum number of concurrent connections (default: 5). | 6                             |
+| `createdb.tlsEnabled`           | Whether to connect using TLS                          | false                              |
+| `createdb.allowInsecureTls`     | Whether to allow insecure / invalid TLS certificates  | false                              |
+| `service.service`               |  Whether enable of disable cratedb-adapter service    | true                               |
+| `service.type`                  | Usual service types                                   |  ClusterIP                         |
+| `service.port`                  | adapter port                                          |  9268                              |
+| `service.targetPort`            | the port you want to expose via service               |  9268                              |
+
 
 Following table contains other parameters are also configurable in chart, but most of the time you may don't need to modify
 
-| Parameter                                        | Description                          |                 Default            |
-|--------------------------------------------------|--------------------------------------|------------------------------------|
-| `cratedbConfig.discovery.recoverAfterNodes`      |  CrateDB recover when found this much of nodes | 2                        |
-| `cratedbConfig.discovery.zen.minimumMasterNodes` |  minimum master nodes                | 2                                  |
-| `cratedbConfig.discovery.zen.hostsProvider`      |  host provider                       | srv                                |  
-| `internalService.port`                           | port for the internal service, this is the port for inter-node communication| 4300  |
-| `internalService.portName`                       | name for the internal service port   | crate-internal                     |
-| `internalService.name`                           | name for the inter-node communication service  | crate-internal-service   |
-| `externalService.name`                           | name for the external service        | crate-external-service             |
-| `externalService.webUiPort`                      | port for the webUI for the CrateDB   | 4200                               |
-| `externalService.webPortName`                    | name of the port for the webUI for the CrateDB | crate-web                |
-| `externalService.pgsqlWirePort`                  | PostgreSQL wire protocol port        | 5432                               |
-| `labels`                                         | Your labels that you want to put in the resources | {}                    |
-| `image.repository`                               | CrateDB image                        | crate                              |
-| `image.tag`                                      | version/ tag of the image            | 3.2.7                              |
-| `image.pullPolicy`                               | image pull policy                    | IfNotPresent                       |
-
+| Parameter                      | Description                          |                 Default            |
+|--------------------------------|--------------------------------------|------------------------------------|
+| `resources`                    | resources requests/limits can be defined as your requirement | {}         |
+| `affinity`                     | pod affinity                         | {}                                 |
+| `image.repository`             | CrateDB adapter image                | crate/crate_adapter                |
+| `image.tag`                    | version/ tag of the image            | latest                             |
+| `image.pullPolicy`             | image pull policy                    | IfNotPresent                       |
+| `nameOverride`                 | override chart name                  | ""                                 |
+| `fullnameOverride`             | override chart full name             | ""                                 |
 Happy Helm with ♥ at hmdmph
 
 

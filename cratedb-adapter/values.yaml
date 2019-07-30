@@ -18,6 +18,13 @@ createdb:
   tlsEnabled: false
   allowInsecureTls: false
 
+# cratedb adapter service
+service:
+  enabled: true
+  type: ClusterIP
+  port: 9268
+  targetPort: 9268
+
 # Image details
 image:
   repository: crate/crate_adapter
@@ -27,13 +34,6 @@ image:
 # Name details
 nameOverride: ""
 fullnameOverride: ""
-
-# cratedb adapter service
-service:
-  enabled: true
-  type: ClusterIP
-  port: 9268
-  targetPort: 9268
 
 resources: {}
   #  cpu: 100m
