@@ -1,0 +1,30 @@
+
+Check the status of crateDB Adapter using:
+
+  kubectl get pods --namespace {{ .Values.namespace }} -l "app.kubernetes.io/name={{ template "cratedb-adapter.name" . }}"
+
+While creation in progress you may see something like below
+
+  NAME                      READY     STATUS            RESTARTS   AGE
+  cratedb-adapter-zxx-ere   0/1       PodInitializing   0          10s
+
+
+After creating of pods you may see something like below
+
+  NAME                      READY     STATUS            RESTARTS   AGE
+  cratedb-adapter-zxx-ere   1/1       Running           0          20s
+
+Check whether cratedb-adapter service is created using following command
+
+kubectl get service --namespace {{ .Values.namespace }} -l "app.kubernetes.io/name={{ template "cratedb-adapter.name" . }}"
+
+As a result of above command you will get similar result below
+
+  NAME                                                 TYPE        CLUSTER-IP   EXTERNAL-IP  PORT(S)           AGE
+  {{ include "cratedb-adapter.fullname" . }}-service   ClusterIP   10.x.x.41    <none>       {{ .Values.service.port }}:{{ .Values.service.targetPort }}/TCP, 3m
+
+
+No you can use this adapter to connect to your cratedb from any services. For example you can use this as prometheus remote database.
+
+Happy Helm with ♥ at hmdmph
+

@@ -1,0 +1,22 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ include "cratedb-adapter.fullname" . }}-service
+  labels:
+    app.kubernetes.io/name: {{ include "cratedb-adapter.name" . }}
+    helm.sh/chart: {{ include "cratedb-adapter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: adapter-port
+  selector:
+    app.kubernetes.io/name: {{ include "cratedb-adapter.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

@@ -1,0 +1,49 @@
+# Default values for cratedb-adapter.
+
+# number of replicas
+replicaCount: 1
+
+# namespace
+namespace: "default"
+
+# hosting domain of the cratedb
+# This can be internal cluster or external service name as wish
+createdb:
+  hostName: "crate.your-domain.com"
+  portName: 5432
+  userName: "crate"
+  passwd: ""
+  schema: "cratedb"
+  maxConnections: 6
+  tlsEnabled: false
+  allowInsecureTls: false
+
+# cratedb adapter service
+service:
+  enabled: true
+  type: ClusterIP
+  port: 9268
+  targetPort: 9268
+
+# Image details
+image:
+  repository: crate/crate_adapter
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Name details
+nameOverride: ""
+fullnameOverride: ""
+
+resources: {}
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

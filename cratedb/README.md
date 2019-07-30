@@ -15,7 +15,7 @@ in the Deployment.
 ### TL;DR
 
 ```bash
-$ helm install incubator/cratedb
+$ helm install hmdmph/cratedb
 ```
 
 ## Prerequisites
@@ -28,8 +28,8 @@ $ helm install incubator/cratedb
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
-$ helm install --name my-crate incubator/cratedb
+$ helm repo add hmdmph https://hmdmph.github.io/helm-charts
+$ helm install --name my-crate hmdmph/cratedb
 ```
 
 This Helm chart deploys crateDB on the Kubernetes cluster in a default
