@@ -59,8 +59,17 @@ deletes the release.
 A major chart version change (like v0.1.0 -> v1.0.0) indicates that there may be
 incompatible or breaking changes that require manual actions.
 
-### 0.1.0
-This is the initial version of the crateDB chart with the minimal configuration/ settings.
+##Changelog
+
+#### 1.0.1 - 
+_2019-07-29_
+  
+  - fixed typo in readme file
+ 
+#### 0.1.0
+_2019-06-20_
+
+ - This is the initial version of the crateDB chart with the minimal configuration/ settings.
 
 ## How to delete the crateDB StatefulSet
 ```bash
