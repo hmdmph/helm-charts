@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ include "cratedb-adapter.fullname" . }}-config
+  labels:
+    app: crate-prometheus-adapter-config
+data:
+  CRATE_ADAPTER_CONFIG: |-
+    crate_endpoints:
+      - host: "{{ .Values.createdb.hostName }}"
+        port: {{ .Values.createdb.portName }}
+        user: "{{ .Values.createdb.userName }}"
+        password: {{ .Values.createdb.passwd }}
+        schema: "{{ .Values.createdb.schema }}"
+        max_connections: {{ .Values.createdb.maxConnections }}
+        enable_tls: {{ .Values.createdb.tlsEnabled }}
+        allow_insecure_tls: {{ .Values.createdb.allowInsecureTls }}

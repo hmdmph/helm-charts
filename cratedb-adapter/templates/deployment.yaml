@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cratedb-adapter.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "cratedb-adapter.name" . }}
+    helm.sh/chart: {{ include "cratedb-adapter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "cratedb-adapter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      namespace: {{ .Values.namespace }}
+      labels:
+        app.kubernetes.io/name: {{ include "cratedb-adapter.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["./crate_adapter", "-config.file", "/etc/crate_adapter/config.yml"]
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9268
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9268
+              scheme: HTTP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: 9268
+              name: adapter-port
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /etc/crate_adapter
+              name: {{ include "cratedb-adapter.fullname" . }}-config
+        {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      volumes:
+        - name: {{ include "cratedb-adapter.fullname" . }}-config
+          configMap:
+            name: {{ include "cratedb-adapter.fullname" . }}-config
+            items:
+              - key: CRATE_ADAPTER_CONFIG
+                path: config.yml
+
