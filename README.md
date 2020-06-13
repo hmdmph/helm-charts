@@ -18,6 +18,8 @@ foundation.
 - [redis-pod-labeler](https://github.com/hmdmph/helm-charts/tree/master/redis-pod-labeler) - simple tool that labels redis pods
  with its role (master/ slave)
 - [crateDB-adapter](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter) - adapter to connect to createdb and 
+expose endpoint via service( v1 )
+- [crateDB-adapter-v2](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter-v2) - adapter to connect to createdb and 
 expose endpoint via service
 
 
