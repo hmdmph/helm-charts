@@ -10,7 +10,7 @@ This chart deploys a CrateDB cluster as a StatefulSet. It creates a External
 Service that does load balancing by default. The default persistence mechanism 
 is simply the ephemeral local filesystem, but production deployments should 
 set `persistentVolume.enabled` to `true` to attach storage volumes to each Pod 
-in the Deployment.
+in the Deployment. Use with helm version 2.
 
 ### TL;DR
 
@@ -63,6 +63,11 @@ incompatible or breaking changes that require manual actions.
 
 #### 1.0.1 - 
 _2019-07-29_
+  - update with using latest cratedb configs
+  - update to use with helm v2
+  
+#### 1.0.1 - 
+_2019-07-29_
   
   - fixed typo in readme file
  
@@ -93,7 +98,6 @@ The following table lists main configurable most common parameters of the CrateD
 | `persistentVolume.size`         | disk size ( production environment you have to specify according to your requirement | 5Gi |
 | `cratedbConfig.dataPath`        |  CrateDB configuration, data path                     | /data                              |
 | `cratedbConfig.volumeMountName` | mount volume name                                     | data                               |
-| `affinity`                      | pod affinity                                          | {}                                 |
 | `nameOverride`                  | override chart name                                   | ""                                 |
 | `fullnameOverride`              | override chart full name                              | ""                                 |
 
@@ -115,6 +119,13 @@ Following table contains other parameters are also configurable in chart, but mo
 | `image.repository`                               | CrateDB image                        | crate                              |
 | `image.tag`                                      | version/ tag of the image            | 3.2.7                              |
 | `image.pullPolicy`                               | image pull policy                    | IfNotPresent                       |
+| `podAnnotations`                                 | pod annotations                      | {}                                 |
+| `podSecurityContext`                             | pod securityContext                  | {}                                 |
+| `serviceAccount.create`                          | create service account               | true                               |
+| `serviceAccount.annotations`                     |  service account annotations         | {}                                 |
+| `affinity`                                       | pod affinity                         | {}                                 |
+| `nodeSelector`                                   | node selection                       | {}                                 |
+| `tolerations`                                    | tolerations                          | []                                 |
 
 Happy Helm with ♥ at hmdmph
 

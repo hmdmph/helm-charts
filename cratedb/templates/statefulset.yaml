@@ -5,44 +5,40 @@ metadata:
   namespace: {{ .Values.namespace }}
   name: {{ template "cratedb.name" . }}
   labels:
-    app.kubernetes.io/name: {{ template "cratedb.name" . }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "cratedb.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/version: {{ .Chart.Version }}
-{{- if .Values.labels }}
-{{ toYaml .Values.labels | indent 4 }}
-{{- end }}
+  {{- include "cratedb.labels" . | nindent 4 }}
 spec:
   serviceName: {{ .Values.cratadbStatefulsetName }}
   replicas: {{ .Values.clusterSize }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "cratedb.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- include "cratedb.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       namespace: {{ .Values.namespace }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/name: {{ template "cratedb.name" . }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        helm.sh/chart: {{ include "cratedb.chart" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/version: {{ .Chart.Version }}
-{{- if .Values.labels }}
-{{ toYaml .Values.labels | indent 8 }}
-{{- end }}
+    {{- include "cratedb.selectorLabels" . | nindent 8 }}
     spec:
-{{- if not .Values.persistentVolume.enabled }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cratedb.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if not .Values.persistentVolume.enabled }}
       volumes:
         - name: {{ .Values.cratedbConfig.volumeMountName }}
           emptyDir: {}
-{{- end }}
-{{- if .Values.affinity }}
+      {{- end }}
+      {{- if .Values.affinity }}
       affinity:
-{{ tpl .Values.affinity | indent 8 }}
-{{- end }}
-# This is to set the correct memory map
+      {{ tpl .Values.affinity | indent 8 }}
+      {{- end }}
+      # This is to set the correct memory map
       initContainers:
         - name: init-sysctl
           image: busybox
@@ -60,16 +56,18 @@ spec:
           command:
             - /docker-entrypoint.sh
             - -Ccluster.name=${CLUSTER_NAME}
-            - -Cdiscovery.zen.minimum_master_nodes={{ .Values.cratedbConfig.discovery.zen.minimumMasterNodes }}
-            - -Cdiscovery.zen.hosts_provider={{ .Values.cratedbConfig.discovery.zen.hostsProvider }}
+            - -Ccluster.initial_master_nodes={{ .Values.cratedbConfig.discovery.zen.minimumMasterNodes }}
+            - -Cdiscovery.seed_providers={{ .Values.cratedbConfig.discovery.zen.hostsProvider }}
             - -Cdiscovery.srv.query=_crate-internal._tcp.{{ .Values.internalService.name }}.${NAMESPACE}.svc.cluster.local
             - -Cgateway.recover_after_nodes={{ .Values.cratedbConfig.discovery.recoverAfterNodes }}
             - -Cgateway.expected_nodes=${EXPECTED_NODES}
+            - -Chttp.cors.allow-origin={{ .Values.http.cors.allowOrigin }}
+            - -Chttp.cors.enabled={{ .Values.http.cors.enabled }}
             - -Cpath.data={{ .Values.cratedbConfig.dataPath }}
-{{- if .Values.resources }}
+          {{- if .Values.resources }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-{{- end }}
+          {{ toYaml .Values.resources | indent 12 }}
+          {{- end }}
           ports:
             # Port 4300 for inter-node communication.
             - containerPort: {{ .Values.internalService.port }}
@@ -92,27 +90,39 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-{{- if .Values.persistentVolume.enabled }}
+          {{- if .Values.persistentVolume.enabled }}
           volumeMounts:
-          - mountPath: {{ .Values.cratedbConfig.dataPath }}
-            name: {{ .Values.cratedbConfig.volumeMountName }}
+            - mountPath: {{ .Values.cratedbConfig.dataPath }}
+              name: {{ .Values.cratedbConfig.volumeMountName }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: {{ .Values.cratedbConfig.volumeMountName }}
       spec:
-          {{- if .Values.persistentVolume.storageClass }}
-          {{- if (eq "-" .Values.persistentVolume.storageClass) }}
+        {{- if .Values.persistentVolume.storageClass }}
+        {{- if (eq "-" .Values.persistentVolume.storageClass) }}
         storageClassName: ""
-          {{- else }}
+        {{- else }}
         storageClassName: {{ .Values.persistentVolume.storageClass }}
-          {{- end }}
-          {{- end }}
+        {{- end }}
+        {{- end }}
         accessModes:
-            {{- range .Values.persistentVolume.accessModes }}
+          {{- range .Values.persistentVolume.accessModes }}
           - {{ . | quote }}
-          {{- end }}
+        {{- end }}
         resources:
           requests:
             storage: {{ .Values.persistentVolume.size | quote }}
-{{- end -}}
+  {{- end -}}
 

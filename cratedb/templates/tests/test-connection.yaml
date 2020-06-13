@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "cratedb.fullname" . }}-test-connection"
+  labels:
+    {{- include "cratedb.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "cratedb.fullname" . }}:{{ .Values.internalService.port }}']
+  restartPolicy: Never

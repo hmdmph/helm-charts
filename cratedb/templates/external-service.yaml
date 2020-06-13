@@ -1,0 +1,23 @@
+# CrateDB internal service
+# This is the service that each CrateDB node be able to discover and
+# communicate with the other nodes in the cluster.
+  {{- if .Values.externalService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.externalService.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+  {{- include "cratedb.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.externalService.type }}
+  ports:
+    - port: {{ .Values.externalService.webUiPort}}
+      protocol: TCP
+      name: {{ .Values.externalService.webPortName }}
+    - port: {{ .Values.externalService.pgsqlWirePort }}
+      protocol: TCP
+      name: {{ .Values.externalService.pgsqlWirePortName }}
+  selector:
+  {{- include "cratedb.selectorLabels" . | nindent 4 }}
+  {{- end }}
