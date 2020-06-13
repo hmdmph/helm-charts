@@ -61,8 +61,8 @@ incompatible or breaking changes that require manual actions.
 
 ##Changelog
 
-#### 1.0.1 - 
-_2019-07-29_
+#### 2.0.0
+_2020-06-13_
   - update with using latest cratedb configs
   - update to use with helm v2
   
