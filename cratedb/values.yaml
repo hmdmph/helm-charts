@@ -18,44 +18,39 @@ heapSize: 256m
 
 # crateDB internal service
 internalService:
+  type: ClusterIP
   port: 4300
   portName: crate-internal
   name: crate-internal-service
 
-# crateDB external service
+# crateDB external service ( for the Web User Interface )
 externalService:
+  enabled: true
+  type: LoadBalancer
   name: crate-external-service
   # web ui
   webUiPort: 4200
   webPortName: crate-web
-#  PostgreSQL wire protocol port
+  #  PostgreSQL wire protocol port
   pgsqlWirePort: 5432
   pgsqlWirePortName: postgres
 
-# labels that you wanted to add
-labels: {}
-#  mytype: database
-#  anotherone: label1
+# http Cross-origin resource sharing config
+http:
+  cors:
+    enabled: false
+    allowOrigin: "*"
 
 ## The CouchDB image (This image uses the official crateDB image enterprise
 #  version that is free up to 3 nodes.)
 #  More information  https://crate.io/products/cratedb-editions/)
 image:
   repository: crate
-  tag: 3.2.7
+  tag: 4.1.6
   pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
-
-# resources requests/limits can be defined as your requirement
-resources: {}
-#  limits:
-#    memory: 1024Mi
-#    cpu: 2000m
-#  requests:
-#    memory: 512Mi
-#    cpu: 300m
 
 ## The storage volume used by each Pod in the crateDB StatefulSet.
 persistentVolume:
@@ -75,17 +70,57 @@ cratedbConfig:
       minimumMasterNodes: 2
       hostsProvider: srv
 
-# pod affinity
-affinity: {}
-# You can put your own affinity. below example is to created the pods in
-# nodes of different availability zones
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
 
-#  podAntiAffinity:
-#    requiredDuringSchedulingIgnoredDuringExecution:
-#      - topologyKey: failure-domain.beta.kubernetes.io/zone
-#        labelSelector:
-#          matchExpressions:
-#            - key: app
-#              operator: In
-#              values:
-#                - <your-value-goes-here>
+imagePullSecrets: []
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

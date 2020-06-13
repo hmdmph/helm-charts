@@ -14,8 +14,8 @@
 *.swp
 *.bak
 *.tmp
+*.orig
 *~
-OWNERS
 # Various IDEs
 .project
 .idea/

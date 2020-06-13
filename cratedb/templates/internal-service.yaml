@@ -7,20 +7,13 @@ metadata:
   name: {{  .Values.internalService.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: {{ template "cratedb.name" . }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "cratedb.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/version: {{ .Chart.Version }}
-{{- if .Values.labels }}
-{{ toYaml .Values.labels | indent 4 }}
-{{- end }}
+    {{- include "cratedb.labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.internalService.type }}
   ports:
     - port: {{ .Values.internalService.port }}
+      targetPort: {{ .Values.internalService.port }}
+      protocol: TCP
       name: {{ .Values.internalService.portName }}
   selector:
-    app.kubernetes.io/name: {{ template "cratedb.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-
+    {{- include "cratedb.selectorLabels" . | nindent 4 }}

@@ -1,8 +1,9 @@
 name: cratedb
-version: 1.0.1
-apiVersion: v1
-appVersion: "1.0.1"
+apiVersion: v2
+version: 2.0.0
+appVersion: 4.1.6
 description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database built on top of a NoSQL foundation)
+type: application
 home: https://crate.io
 sources:
   - https://github.com/crate/crate
@@ -10,3 +11,4 @@ maintainers:
   - name: hmdmph
     email: hmdmph@gmail.com
 icon: https://raw.githubusercontent.com/crate/crate/master/blackbox/docs/_static/crate-logo.png
+
