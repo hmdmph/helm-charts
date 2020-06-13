@@ -1,0 +1,13 @@
+apiVersion: v2
+version: 0.2.1
+appVersion: 0.2.1
+name: cratedb-adapter-v2
+description: A Helm chart for Version 2, CrateDB Prometheus Adapter ( CrateDB is a distributed SQL database )
+type: application
+home: https://crate.io
+sources:
+  - https://github.com/crate/crate_adapter
+maintainers:
+  - name: hmdmph
+    email: hmdmph@gmail.com
+icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/cratedb-adapter/cratedb-adapter-logo.png
