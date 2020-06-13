@@ -12,6 +12,8 @@ foundation.
  with its role (master/ slave)
 - [crateDB-adapter](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter) - Adapter to connect crateDB and expose 
 endpoint.
+- [crateDB-adapter-v2](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter-v2) - Adapter to connect crateDB V2
+ and expose endpoint.
  
 - more in progress...
 
