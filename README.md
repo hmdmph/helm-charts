@@ -20,7 +20,7 @@ foundation.
 - [crateDB-adapter](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter) - adapter to connect to createdb and 
 expose endpoint via service( v1 )
 - [crateDB-adapter-v2](https://github.com/hmdmph/helm-charts/tree/master/cratedb-adapter-v2) - adapter to connect to createdb and 
-expose endpoint via service
+expose endpoint via service ( v2 )
 
 
 
