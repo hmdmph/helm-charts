@@ -14,12 +14,10 @@
 *.swp
 *.bak
 *.tmp
+*.orig
 *~
 # Various IDEs
 .project
 .idea/
 *.tmproj
 .vscode/
-
-# custom
-mongo-pod-labeler-logo.png
