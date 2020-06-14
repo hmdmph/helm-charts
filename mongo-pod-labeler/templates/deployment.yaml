@@ -1,39 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.namespace }}
   name: {{ include "mongo-pod-labeler.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
-    helm.sh/chart: {{ include "mongo-pod-labeler.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- include "mongo-pod-labeler.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- include "mongo-pod-labeler.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      namespace: {{ .Values.namespace }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/name: {{ include "mongo-pod-labeler.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "mongo-pod-labeler.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "mongo-pod-labeler.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           args:
             - ./mongo-labeler.py
             - --namespace={{ .Values.namespace }}
             - --pod-selector={{ .Values.mongoPodSelector.keyValuePair }}
             - --update-period={{ .Values.labelUpdateFrequency }}
-              {{- if .Values.verbose.enabled }}
+            {{- if .Values.verbose.enabled }}
             - --verbose
-            {{- end }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           livenessProbe:
             exec:
               command:
@@ -47,17 +55,16 @@ spec:
                 - -c
                 - ps uaxw | egrep 'python' | grep -v 'grep'
           resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-        {{- with .Values.nodeSelector }}
+      {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-      serviceAccountName: {{ include "mongo-pod-labeler.serviceaccount" . }}
+  {{- toYaml . | nindent 8 }}
+  {{- end }}

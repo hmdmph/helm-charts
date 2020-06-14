@@ -57,6 +57,9 @@ incompatible or breaking changes that require manual actions.
 
 ##Changelog
 
+### 1.0.2
+- use latest Kubernetes spec for deployment
+
 ### 1.0.1
 - Improved alpine based small image
 - clear logs in verbose mode
@@ -76,23 +79,26 @@ The following table lists main configurable most common parameters of the mongo-
 | `labelUpdateFrequency`          | how frequent you want to update the mongo pods labels (in seconds) | 60        |
 | `mongoPodSelector.keyValuePair` | key=value of to match and get the mongo pods          | app=mongodb-replicaset |
 | `verbose.enabled`               | detailed output in the logs                           | false                  |
-|---------------------------------|---------------------------------                      |---------------------   |
 | `nameOverride`                  | override chart name                                   | ""                     |
 | `fullnameOverride`              | override chart full name                              | ""                     |
-|---------------------------------|---------------------------------                      |---------------------   |
-| `image.repository`              | image repository                                      | redmart/mongo-pod-labeler|
-| `image.tag`                     | image tag                                             | 1.0.0                  |
+| `image.repository`              | image repository                                      | hmdmph/mongo-pod-labeler|
+| `image.tag`                     | image tag                                             | 1.0.1-alpine           |
 | `image.pullPolicy`              | image pull policy                                     | IfNotPresent           |
-|---------------------------------|---------------------------------                      |---------------------   |
 | `resources.limits.cpu`          | cpu resource limit                                    | 200m                   |
 | `resources.limits.memory`       | memory resource limit                                 | 200Mi                  |
 | `resources.requests.cpu`        | cpu request                                           | 100m                   |
 | `resources.requests.memory`     | memory request                                        | 128Mi                  |
-|---------------------------------|---------------------------------                      |---------------------   |
 | `nodeSelector`                  | node selector                                         | {}                     |
 | `tolerations`                   | tolerations                                           | []                     |
 | `affinity`                      | pod affinity                                          | {}                     |
-|---------------------------------|---------------------------------                      |---------------------   |
+| `imagePullSecrets`              | image pull secrets                                    | []                     |
+| `podAnnotations`                | pod annotations                                       | {}                     |
+| `podSecurityContext`            | pod securityContext                                   | {}                     |
+| `autoscaling.enabled`           | enable auto pods auto scale                           | false                  |
+| `autoscaling.minReplicas`       | minimum replica count                                 | 1                      |
+| `autoscaling.maxReplicas`       | maximum replica count                                 | 2                      |
+| `autoscaling.targetCPUUtilizationPercentage` | auto scale cpu threshold                 | 85                     |
+| `autoscaling.targetMemoryUtilizationPercentage` | auto scale memory threshold           | 85                     |
 
 Happy Helm with ♥ at hmdmph
 
