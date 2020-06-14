@@ -4,15 +4,12 @@ metadata:
   name: {{ include "redis-pod-labeler.clusterrolebinding" . }}
   namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-    helm.sh/chart: {{ include "redis-pod-labeler.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- include "redis-pod-labeler.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: {{ include "redis-pod-labeler.clusterrole" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "redis-pod-labeler.serviceaccount" . }}
+    name: {{ include "redis-pod-labeler.serviceAccountName" . }}
     namespace: {{ .Values.namespace }}

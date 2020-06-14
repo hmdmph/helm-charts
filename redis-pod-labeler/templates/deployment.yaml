@@ -3,26 +3,36 @@ kind: Deployment
 metadata:
   name: {{ include "redis-pod-labeler.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-    helm.sh/chart: {{ include "redis-pod-labeler.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- include "redis-pod-labeler.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- include "redis-pod-labeler.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "redis-pod-labeler.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "redis-pod-labeler.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - ./redis-labeler.py
@@ -33,12 +43,12 @@ spec:
             - --redis-headless-svc-name={{ .Values.headlessName }} # redis headless service name
             - --company-domain={{ .Values.companyDomain }}  # company domain
             - --redis-sentinel_port={{ .Values.sentinelPort }} # sentinel port
-{{- if .Values.skipTlsVerify.enabled }}
+            {{- if .Values.skipTlsVerify.enabled }}
             - --insecure-skip-tls-verify
-{{- end }}
-{{- if .Values.verbose.enabled }}
+            {{- end }}
+            {{- if .Values.verbose.enabled }}
             - --verbose
-{{- end }}
+          {{- end }}
           livenessProbe:
             exec:
               command:
@@ -52,17 +62,16 @@ spec:
                 - -c
                 - ps uaxw | egrep 'python' | grep -v 'grep'
           resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-        {{- with .Values.nodeSelector }}
+      {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-        {{- with .Values.tolerations }}
-      tolerations:
       {{- toYaml . | nindent 8 }}
-    {{- end }}
-      serviceAccountName: {{ include "redis-pod-labeler.serviceaccount" . }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+  {{- toYaml . | nindent 8 }}
+  {{- end }}
