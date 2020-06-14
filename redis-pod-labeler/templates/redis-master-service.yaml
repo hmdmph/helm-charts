@@ -2,17 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-{{- if .Values.serviceAnnotations }}
+  {{- if .Values.serviceAccount }}
   annotations:
-{{- toYaml .Values.serviceAnnotations | nindent 4 }}
-{{- end }}
+  {{- toYaml .Values.serviceAccount.annotations | nindent 4 }}
+  {{- end }}
   namespace: {{ .Values.namespace }}
   name: {{ include "redis-pod-labeler.masterservice" . }}
   labels:
-    app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-    helm.sh/chart: {{ include "redis-pod-labeler.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- include "redis-pod-labeler.labels" . | nindent 4 }}
 spec:
   ports:
     - name: redis
@@ -20,8 +17,7 @@ spec:
       port: {{ .Values.redisPort }}
       targetPort: redis
   selector:
-    app.kubernetes.io/name: {{ include "redis-pod-labeler.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    {{ include "redis-pod-labeler.rolekey" . }}: master
-{{- end }}
+    {{ include "redis-pod-labeler.rolekey" . | nindent 4 }}: master
+  {{ include "redis-pod-labeler.selectorLabels" . | nindent 4 }}
+  {{- end }}
 
