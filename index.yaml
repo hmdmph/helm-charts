@@ -2,8 +2,26 @@ apiVersion: v1
 entries:
   cratedb:
   - apiVersion: v2
+    appVersion: 4.4.1
+    created: "2021-03-11T13:05:05.114921+08:00"
+    description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
+      built on top of a NoSQL foundation)
+    digest: 2760bbfc5a6f6a8830cbbf2cc05b749a95253031e925d37d2741a55353a27a00
+    home: https://crate.io
+    icon: https://raw.githubusercontent.com/crate/crate/master/blackbox/docs/_static/crate-logo.png
+    maintainers:
+    - email: hmdmph@gmail.com
+      name: hmdmph
+    name: cratedb
+    sources:
+    - https://github.com/crate/crate
+    type: application
+    urls:
+    - cratedb-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
     appVersion: 4.1.6
-    created: "2020-07-17T15:55:47.610877+08:00"
+    created: "2021-03-11T13:05:05.113494+08:00"
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: 884f793d9a176a9433c221eac220e5f38d36b265c5fdbe5d95adc6d302355d25
@@ -17,11 +35,11 @@ entries:
     - https://github.com/crate/crate
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-2.0.0.tgz
+    - cratedb-2.0.0.tgz
     version: 2.0.0
   - apiVersion: v1
     appVersion: 1.0.1
-    created: "2020-07-17T15:55:47.605615+08:00"
+    created: "2021-03-11T13:05:05.112251+08:00"
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: ab269e74f678f340422a3d0f4c86dbfb971c8cdbfcdf7bf269893d4018c606a5
@@ -34,11 +52,11 @@ entries:
     sources:
     - https://github.com/crate/crate
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-1.0.1.tgz
+    - cratedb-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.604586+08:00"
+    created: "2021-03-11T13:05:05.111269+08:00"
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: 97ca71d760c063d4fe8b914a9327af00c208ce0b445ad96ab01a962889e74aef
@@ -51,11 +69,11 @@ entries:
     sources:
     - https://github.com/crate/crate
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-1.0.0.tgz
+    - cratedb-1.0.0.tgz
     version: 1.0.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2020-07-17T15:55:47.603509+08:00"
+    created: "2021-03-11T13:05:05.110387+08:00"
     description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database
       built on top of a NoSQL foundation)
     digest: 33121f4550d74c8bd6c65dbf9030878e3fad7247101175704e3397af6acb79bd
@@ -68,12 +86,12 @@ entries:
     sources:
     - https://github.com/crate/crate
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-0.1.0.tgz
+    - cratedb-0.1.0.tgz
     version: 0.1.0
   cratedb-adapter:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.611959+08:00"
+    created: "2021-03-11T13:05:05.116102+08:00"
     description: A Helm chart for CrateDB adapter ( CrateDB is a distributed SQL database
       )
     digest: a3e576ecaef7413afb69800b6473de107178edd2ccac7099afeeef9ac27145d9
@@ -86,12 +104,12 @@ entries:
     sources:
     - https://github.com/crate/crate_adapter
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-adapter-0.1.0.tgz
+    - cratedb-adapter-0.1.0.tgz
     version: 0.1.0
   cratedb-adapter-v2:
   - apiVersion: v2
     appVersion: 0.2.1
-    created: "2020-07-17T15:55:47.612856+08:00"
+    created: "2021-03-11T13:05:05.120423+08:00"
     description: A Helm chart for Version 2, CrateDB Prometheus Adapter ( CrateDB
       is a distributed SQL database )
     digest: 186d07878c7dc25b09862ad07ee6d9d971e11a7eb2fa666ae2cd4db0500b05fc
@@ -105,12 +123,12 @@ entries:
     - https://github.com/crate/crate_adapter
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/cratedb-adapter-v2-0.2.1.tgz
+    - cratedb-adapter-v2-0.2.1.tgz
     version: 0.2.1
   incy-generic:
   - apiVersion: v2
     appVersion: 1.17.5
-    created: "2020-07-17T15:55:47.618231+08:00"
+    created: "2021-03-11T13:05:05.125816+08:00"
     description: A Helm chart for microservices in incylabs( not for static content
       hosting)
     digest: 672e8e16c048d76e955466aa6c44c4ac47a64a0fbb7866e43d35bd9e702c66e7
@@ -122,11 +140,11 @@ entries:
     name: incy-generic
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/incy-generic-0.0.4.tgz
+    - incy-generic-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v2
     appVersion: 1.17.5
-    created: "2020-07-17T15:55:47.61701+08:00"
+    created: "2021-03-11T13:05:05.124754+08:00"
     description: A Helm chart for microservices in incylabs( not for static content
       hosting)
     digest: b092fd2f861350f5e2b328b115f85700ba771d195dce02230c35f5bf31f750b0
@@ -138,11 +156,11 @@ entries:
     name: incy-generic
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/incy-generic-0.0.3.tgz
+    - incy-generic-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v2
     appVersion: 1.17.5
-    created: "2020-07-17T15:55:47.615193+08:00"
+    created: "2021-03-11T13:05:05.122779+08:00"
     description: A Helm chart for microservices in incylabs
     digest: 1e7a59aaa557af9135d125c9ac34a827ed59f3dad1a0efce3a26743991a6a84e
     icon: https://www.incylabs.com/images/logo-icon-white.png
@@ -153,11 +171,11 @@ entries:
     name: incy-generic
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/incy-generic-0.0.2.tgz
+    - incy-generic-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v2
     appVersion: 1.17.5
-    created: "2020-07-17T15:55:47.613979+08:00"
+    created: "2021-03-11T13:05:05.121571+08:00"
     description: A Helm chart for microservices in incylabs
     digest: 32b9672ab5a9d32494014a1e1581ef70a03cf0225e0429e584d00c875dab97bf
     icon: https://www.incylabs.com/images/logo-icon-white.png
@@ -168,12 +186,12 @@ entries:
     name: incy-generic
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/incy-generic-0.0.1.tgz
+    - incy-generic-0.0.1.tgz
     version: 0.0.1
   mongo-pod-labeler:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.621795+08:00"
+    created: "2021-03-11T13:05:05.12892+08:00"
     description: Labelling mongo pods (as primary or secondary ) periodically checking
       its status
     digest: f8b53f2354be2213925d5367fd5689028c6168178d6311b884220671e26424b3
@@ -186,11 +204,11 @@ entries:
     - https://github.com/hmdmph/helm-charts/tree/master/mongo-pod-labeler
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/mongo-pod-labeler-1.0.2.tgz
+    - mongo-pod-labeler-1.0.2.tgz
     version: 1.0.2
   - apiVersion: v1
     appVersion: 1.0.1
-    created: "2020-07-17T15:55:47.62084+08:00"
+    created: "2021-03-11T13:05:05.128053+08:00"
     description: Labelling mongo pods (as primary or secondary ) periodically checking
       its status
     digest: 0a5dab26e3c4144f1db01ebf649a545753a5493cc062b81412f15045f8070e7c
@@ -202,11 +220,11 @@ entries:
     sources:
     - https://github.com/hmdmph/helm-charts/tree/master/mongo-pod-labeler
     urls:
-    - https://hmdmph.github.io/helm-charts/mongo-pod-labeler-1.0.1.tgz
+    - mongo-pod-labeler-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.61996+08:00"
+    created: "2021-03-11T13:05:05.127298+08:00"
     description: Labelling mongo pods (as primary or secondary ) periodically checking
       its status
     digest: fd1124793bec3722a55b728f00a11771cc92e2450a1980d5fb86aaacae79265a
@@ -218,15 +236,15 @@ entries:
     sources:
     - https://github.com/hmdmph/helm-charts/tree/master/mongo-pod-labeler
     urls:
-    - https://hmdmph.github.io/helm-charts/mongo-pod-labeler-1.0.0.tgz
+    - mongo-pod-labeler-1.0.0.tgz
     version: 1.0.0
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.619122+08:00"
+    created: "2021-03-11T13:05:05.126562+08:00"
     description: Labelling mongo pods (as primary or secondary ) periodically checking
       its status
     digest: 24fd95966fe61f54823225f60c0794c8f40718b26a89d025e448ec4cfc4bbbb4
-    icon: https//raw.githubusercontent.com/hmdmph/helm-charts/master/redis-pod-labeler/redis-pod-labeler-logo.png
+    icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/mongo-pod-labeler/mongo-pod-labeler-logo.png
     maintainers:
     - email: hmdmph@gmail.com
       name: Manoj Prasanna Handapangoda
@@ -234,12 +252,12 @@ entries:
     sources:
     - https://github.com/hmdmph/helm-charts/tree/master/cratedb
     urls:
-    - https://hmdmph.github.io/helm-charts/mongo-pod-labeler-0.1.0.tgz
+    - mongo-pod-labeler-0.1.0.tgz
     version: 0.1.0
   redis-pod-labeler:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.630224+08:00"
+    created: "2021-03-11T13:05:05.135893+08:00"
     description: Labelling redis pods as master/slave periodically checking its status
     digest: 5f186a218b92d05327ff4821d2766f8e7afaa31ab56dfa020cff109289b341ab
     icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/redis-pod-labeler/redis-pod-labeler-logo.png
@@ -251,11 +269,11 @@ entries:
     - https://github.com/hmdmph/helm-charts/tree/master/redis-pod-labeler
     type: application
     urls:
-    - https://hmdmph.github.io/helm-charts/redis-pod-labeler-1.0.2.tgz
+    - redis-pod-labeler-1.0.2.tgz
     version: 1.0.2
   - apiVersion: v1
     appVersion: 1.0.2
-    created: "2020-07-17T15:55:47.627299+08:00"
+    created: "2021-03-11T13:05:05.13286+08:00"
     description: Labelling redis pods as master/slave periodically checking its status
     digest: ff46ccb4a4877e5e102aeffbb230a9916c72a824b9c945e7119ae43d4ffd073f
     icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/redis-pod-labeler/redis-pod-labeler-logo.png
@@ -266,11 +284,11 @@ entries:
     sources:
     - https://github.com/hmdmph/helm-charts/tree/master/redis-pod-labeler
     urls:
-    - https://hmdmph.github.io/helm-charts/redis-pod-labeler-1.0.1.tgz
+    - redis-pod-labeler-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2020-07-17T15:55:47.623834+08:00"
+    created: "2021-03-11T13:05:05.13077+08:00"
     description: Labelling redis pods as master/slave periodically checking its status
     digest: e11e673489c477bc49cd12ac06c0fbe169d2ce5e19cae6d7a354de3fa1cfa014
     icon: https://raw.githubusercontent.com/hmdmph/helm-charts/master/redis-pod-labeler/redis-pod-labeler-logo.png
@@ -281,6 +299,6 @@ entries:
     sources:
     - https://github.com/hmdmph/helm-charts/tree/master/redis-pod-labeler
     urls:
-    - https://hmdmph.github.io/helm-charts/redis-pod-labeler-1.0.0.tgz
+    - redis-pod-labeler-1.0.0.tgz
     version: 1.0.0
-generated: "2020-07-17T15:55:47.601883+08:00"
+generated: "2021-03-11T13:05:05.109062+08:00"
