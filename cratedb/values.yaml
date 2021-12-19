@@ -14,7 +14,7 @@ namespace: "default"
 cratadbStatefulsetName: crate-set
 
 # heap size ( default value set to 256 megabytes, half of requested memory)
-heapSize: 256m
+heapSize: 1G
 
 # crateDB internal service
 internalService:
@@ -46,7 +46,7 @@ http:
 #  More information  https://crate.io/products/cratedb-editions/)
 image:
   repository: crate
-  tag: 4.4.1
+  tag: 4.6.6
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -57,7 +57,7 @@ persistentVolume:
   enabled: false
   accessModes:
     - ReadWriteOnce
-  size: 5Gi
+  size: 10Gi
 #  storageClass: "-"
 
 ## CrateDB configuration settings. These values passed as arguments of crateDB
