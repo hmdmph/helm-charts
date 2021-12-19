@@ -1,7 +1,7 @@
 name: cratedb
 apiVersion: v2
-version: 2.0.1
-appVersion: 4.4.1
+version: 2.0.2
+appVersion: 4.6.6
 description: A Helm chart for CrateDB ( CrateDB is a distributed SQL database built on top of a NoSQL foundation)
 type: application
 home: https://crate.io
